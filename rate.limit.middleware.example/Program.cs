@@ -2,6 +2,8 @@
 using AspNetCoreRateLimit;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Polly;
+using Polly.RateLimit;
 using rate.limit.middleware.example.DatabaseContext;
 using rate.limit.middleware.example.RateLimitingMiddleware;
 
@@ -14,12 +16,17 @@ namespace rate.limit.middleware.example
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
-
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
+            #region Rate limit using polly
+            // Define a rate limit policy: 1 request per five second
+            var rateLimitPolicy = Policy.RateLimitAsync(1, TimeSpan.FromSeconds(5));
+
+            builder.Services.AddSingleton(rateLimitPolicy);
+            #endregion
             // Read connection string from appsettings.json
             var connectionString = builder.Configuration.GetConnectionString("YourDatabaseConnectionString");
 
