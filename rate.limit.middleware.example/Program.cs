@@ -1,4 +1,6 @@
 
+using rate.limit.middleware.example.RateLimitingMiddleware;
+
 namespace rate.limit.middleware.example
 {
     public class Program
@@ -26,6 +28,8 @@ namespace rate.limit.middleware.example
             app.UseHttpsRedirection();
 
             app.UseAuthorization();
+            // Use the rate limit middleware
+            app.UseRateLimitMiddleware();
 
 
             app.MapControllers();
