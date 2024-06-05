@@ -1,0 +1,6 @@
+@rate.limit.middleware.example_HostAddress = http://localhost:5280
+
+GET {{rate.limit.middleware.example_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
