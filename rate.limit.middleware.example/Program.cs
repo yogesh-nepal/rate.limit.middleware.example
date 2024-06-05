@@ -6,6 +6,7 @@ using Polly;
 using Polly.RateLimit;
 using rate.limit.middleware.example.DatabaseContext;
 using rate.limit.middleware.example.RateLimitingMiddleware;
+using rate.limit.middleware.example.TokenBucketMiddlewares;
 
 namespace rate.limit.middleware.example
 {
@@ -70,8 +71,11 @@ namespace rate.limit.middleware.example
             app.UseRateLimitMiddleware();
             app.UseRateLimitMiddlewareUsingDatabase();
 
-            // Enable IP rate limiting middleware for ratelimit using aspnetcoreratelimit
+            //// Enable IP rate limiting middleware for ratelimit using aspnetcoreratelimit
             app.UseIpRateLimiting();
+
+            // Use the Token Bucket Middleware
+            app.UseMiddleware<TokenBucketMiddleware>();
 
 
             app.MapControllers();
